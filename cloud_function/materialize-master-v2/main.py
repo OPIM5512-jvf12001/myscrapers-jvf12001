@@ -90,7 +90,7 @@ def _write_csv(records: Iterable[Dict], dest_key: str, columns=CSV_COLUMNS) -> i
             n += 1
     return n  # close() finalizes the upload
 
-def materialize_http(request: Request):
+def materialize_http_v2(request: Request):
     """
     HTTP POST (no body needed).
     Crawls ALL structured run folders, de-dupes by post_id (keep newest run),

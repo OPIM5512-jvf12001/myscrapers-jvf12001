@@ -45,11 +45,11 @@ def _list_run_ids(bucket: str, structured_prefix: str) -> list[str]:
     return sorted(run_ids)
 
 def _jsonl_records_for_run(bucket: str, structured_prefix: str, run_id: str):
-    """Yield dict records from .jsonl under .../run_id=<run_id>/jsonl/ (one JSON per file)."""
+    """Yield dict records from .jsonl_v2 under .../run_id=<run_id>/jsonl_v2/ (one JSON per file)."""
     b = storage_client.bucket(bucket)
-    prefix = f"{structured_prefix}/run_id={run_id}/jsonl/"
+    prefix = f"{structured_prefix}/run_id={run_id}/jsonl_v2/"
     for blob in b.list_blobs(prefix=prefix):
-        if not blob.name.endswith(".jsonl"):
+        if not blob.name.endswith(".jsonl_v2"):
             continue
         data = blob.download_as_text()
         line = data.strip()

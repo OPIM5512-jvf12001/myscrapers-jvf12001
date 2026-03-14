@@ -17,7 +17,7 @@ env:
   REGION: ${{ vars.REGION }}
   FUNCTION_NAME: materialize-master-v2
   FUNCTION_DIR: cloud_function/materialize-master-v2
-  ENTRY_POINT: materialize_http
+  ENTRY_POINT: materialize_http_v2
   RUNTIME: python312
   BUCKET_NAME: ${{ vars.BUCKET_NAME }}
   TIMEOUT_SECONDS: "900"
@@ -27,7 +27,7 @@ env:
   DEPLOYER_SA: ${{ vars.DEPLOYER_SA }}
   WORKLOAD_IDENTITY_PROVIDER: ${{ vars.WORKLOAD_IDENTITY_PROVIDER }}
   SCHEDULE_BODY: ${{ vars.MATERIALIZE_BODY || '{}' }}
-  CRON_EXPR: "15 * * * *"   # :15 each hour
+  CRON_EXPR: "17 * * * *"   # :17 each hour
 
 jobs:
   deploy:

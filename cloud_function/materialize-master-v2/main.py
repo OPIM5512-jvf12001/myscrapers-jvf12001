@@ -49,7 +49,7 @@ def _jsonl_records_for_run(bucket: str, structured_prefix: str, run_id: str):
     b = storage_client.bucket(bucket)
     prefix = f"{structured_prefix}/run_id={run_id}/jsonl_v2/"
     for blob in b.list_blobs(prefix=prefix):
-        if not blob.name.endswith(".jsonl_v2"):
+        if not blob.name.endswith(".jsonl"):
             continue
         data = blob.download_as_text()
         line = data.strip()

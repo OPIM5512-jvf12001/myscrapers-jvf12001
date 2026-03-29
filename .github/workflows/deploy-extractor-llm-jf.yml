@@ -1,0 +1,194 @@
+name: Deploy LLM Extractor (CF Gen + Cloud Scheduler)
+run-name: "LLM Extractor deploy by ${{ github.actor }} • ${{ github.ref_name }}"
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'cloud_function/extractor-llm-jf/**'
+      - '.github/workflows/deploy-extractor-llm-jf.yml'
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+  id-token: write
+
+env:
+  PROJECT_ID: ${{ vars.PROJECT_ID }}
+  REGION: ${{ vars.REGION }}
+  FUNCTION_NAME: extractor-llm-jf
+  FUNCTION_DIR: cloud_function/extractor-llm-jf
+  ENTRY_POINT: llm_extract_http
+  RUNTIME: python312
+  BUCKET_NAME: ${{ vars.BUCKET_NAME }}
+  RUNTIME_SA: ${{ vars.RUNTIME_SA }}
+  DEPLOYER_SA: ${{ vars.DEPLOYER_SA }}
+  WORKLOAD_IDENTITY_PROVIDER: ${{ vars.WORKLOAD_IDENTITY_PROVIDER }}
+  LLM_PROVIDER: ${{ vars.LLM_PROVIDER || 'vertex' }}
+  LLM_MODEL: ${{ vars.LLM_MODEL || 'gemini-2.5-flash' }} # <-- CHANGE HERE
+  LLM_OVERWRITE: ${{ vars.LLM_OVERWRITE || 'false' }}
+  LLM_MAX_FILES: ${{ vars.LLM_MAX_FILES || '0' }}
+  LLM_STRUCTURED_PREFIX: ${{ vars.STRUCTURED_PREFIX || 'structured' }}
+  SCHEDULE_BODY: ${{ vars.EXTRACTOR_LLM_BODY || '{"overwrite":false,"max_files":0}' }}
+  CRON_EXPR: "25 * * * *"
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # --- 1. AUTHENTICATION & SETUP ---
+      - name: Auth (WIF)
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ env.WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ env.DEPLOYER_SA }}
+          create_credentials_file: true
+          export_environment_variables: true
+
+      - name: Setup gcloud
+        uses: google-github-actions/setup-gcloud@v2
+        with:
+          project_id: ${{ env.PROJECT_ID }}
+
+      - name: Ensure required APIs enabled (Vertex AI, Scheduler, Artifact Registry)
+        run: |
+          set -euo pipefail
+          # Include Artifact Registry API
+          for API in aiplatform.googleapis.com cloudscheduler.googleapis.com artifactregistry.googleapis.com; do
+            gcloud services list --enabled --filter="$API" --format="value(config.name)" | grep -q "$API" \
+              || gcloud services enable "$API"
+          done
+          
+      - name: Ensure Artifact Registry Ready (CF Gen)
+        run: |
+          # The CF Gen default repository is 'cloud-functions' with 'docker' format
+          set +e # Allow gcloud command to fail if repo already exists
+          gcloud artifacts repositories create cloud-functions \
+            --repository-format=docker \
+            --location="${REGION}" \
+            --description="Cloud Functions Gen deployment repository"
+          set -e # Restore strict execution
+
+      # --- 2. CLOUD FUNCTION DEPLOYMENT ---
+      - name: Deploy Cloud Function (Gen)
+        run: |
+          set -euo pipefail
+          SA_ARGS=()
+          if [[ -n "${RUNTIME_SA:-}" ]]; then
+            gcloud iam service-accounts describe "${RUNTIME_SA}" >/dev/null >&1
+            SA_ARGS=(--service-account="${RUNTIME_SA}")
+          fi
+          # Ensuring all flags are correctly separated by a backslash except the last one.
+          gcloud functions deploy "${FUNCTION_NAME}" \
+            --gen2 \
+            --region="${REGION}" \
+            --runtime="${RUNTIME}" \
+            --source="${FUNCTION_DIR}" \
+            --entry-point="${ENTRY_POINT}" \
+            --trigger-http \
+            --no-allow-unauthenticated \
+            --memory=1024Mi \
+            "${SA_ARGS[@]}" \
+            --set-env-vars="PROJECT_ID=${PROJECT_ID},GCS_BUCKET=${BUCKET_NAME},STRUCTURED_PREFIX=${LLM_STRUCTURED_PREFIX},LLM_PROVIDER=${LLM_PROVIDER},LLM_MODEL=${LLM_MODEL},OVERWRITE=${LLM_OVERWRITE},MAX_FILES=${LLM_MAX_FILES}"
+
+      - name: Get Function URL
+        id: cfurl
+        run: |
+          URL=$(gcloud functions describe "${FUNCTION_NAME}" --gen2 --region "${REGION}" --format='value(serviceConfig.uri)') 
+          echo "url=${URL}" >> "$GITHUB_OUTPUT"
+
+      # --- 3. IAM GRANTS (RUNTIME AND DEPLOYER SAs) ---
+      
+      - name: Grant invoker to deployer & runtime SAs
+        run: |
+          gcloud functions add-invoker-policy-binding "${FUNCTION_NAME}" \
+            --gen2 --region "${REGION}" \
+            --member="serviceAccount:${DEPLOYER_SA}"
+          gcloud functions add-invoker-policy-binding "${FUNCTION_NAME}" \
+            --gen2 --region "${REGION}" \
+            --member="serviceAccount:${RUNTIME_SA}"
+
+      - name: Grant Vertex AI user to runtime SA (for Gemini calls)
+        run: |
+          set -euo pipefail
+          if [[ -n "${RUNTIME_SA:-}" ]]; then
+            gcloud projects add-iam-policy-binding "${PROJECT_ID}" \
+              --member="serviceAccount:${RUNTIME_SA}" \
+              --role="roles/aiplatform.user" || {
+                echo "::warning:: Could not grant roles/aiplatform.user to ${RUNTIME_SA}. Ensure this binding exists once."
+              }
+          else
+            echo "::error::RUNTIME_SA is not set. Add repo variable RUNTIME_SA."
+            exit 1
+          fi
+          
+      - name: Grant GCS Object Admin to runtime SA (for R/W data)
+        run: |
+          set -euo pipefail
+          if [[ -n "${RUNTIME_SA:-}" ]]; then
+            gcloud storage buckets add-iam-policy-binding gs://${BUCKET_NAME} \
+              --member="serviceAccount:${RUNTIME_SA}" \
+              --role="roles/storage.objectAdmin" || {
+                echo "::warning:: Could not grant roles/storage.objectAdmin to ${RUNTIME_SA}. Ensure this binding exists once."
+              }
+          else
+            echo "::error::RUNTIME_SA is not set. Add repo variable RUNTIME_SA."
+            exit 1
+          fi
+      
+      # --- 4. CLOUD SCHEDULER SETUP (OIDC) ---
+
+      - name: Bootstrap IAM for Scheduler OIDC (runtime SA)
+        run: |
+          set -euo pipefail
+          PROJECT_NUMBER="$(gcloud projects describe "${PROJECT_ID}" --format='value(projectNumber)')"
+          SCHED_AGENT="service-${PROJECT_NUMBER}@gcp-sa-cloudscheduler.iam.gserviceaccount.com"
+          echo "Scheduler agent: ${SCHED_AGENT}"
+
+          gcloud iam service-accounts add-iam-policy-binding "${RUNTIME_SA}" \
+            --member="serviceAccount:${SCHED_AGENT}" \
+            --role="roles/iam.serviceAccountTokenCreator" || {
+              echo "::error::Permission denied adding tokenCreator to ${RUNTIME_SA}. Run (once as project owner):"
+              echo "gcloud iam service-accounts add-iam-policy-binding \"${RUNTIME_SA}\" --member=\"serviceAccount:${SCHED_AGENT}\" --role=\"roles/iam.serviceAccountTokenCreator\""
+              exit 1
+            }
+
+          gcloud iam service-accounts add-iam-policy-binding "${RUNTIME_SA}" \
+            --member="serviceAccount:${DEPLOYER_SA}" \
+            --role="roles/iam.serviceAccountUser" || {
+              echo "::error::Permission denied adding ServiceAccountUser for ${DEPLOYER_SA} on ${RUNTIME_SA}. Run:"
+              echo "gcloud iam service-accounts add-iam-policy-binding \"${RUNTIME_SA}\" --member=\"serviceAccount:${DEPLOYER_SA}\" --role=\"roles/iam.serviceAccountUser\""
+              exit 1
+            }
+
+      - name: Create/Update Cloud Scheduler job (:1 ET, uses runtime SA OIDC)
+        shell: bash
+        run: |
+          set -euo pipefail
+          JOB_NAME="${FUNCTION_NAME}-hourly"
+          URL="${{ steps.cfurl.outputs.url }}"
+          [[ -z "${URL}" ]] && { echo "Function URL empty"; exit 1; }
+
+          if gcloud scheduler jobs describe "$JOB_NAME" --location="${REGION}" >/dev/null >&1; then
+            gcloud scheduler jobs update http "$JOB_NAME" \
+              --location="${REGION}" \
+              --schedule="${CRON_EXPR}" \
+              --time-zone="America/New_York" \
+              --uri="${URL}" \
+              --http-method=POST \
+              --message-body='${{ env.SCHEDULE_BODY }}' \
+              --oidc-service-account-email="${RUNTIME_SA}" \
+              --oidc-token-audience="${URL}"
+          else
+            gcloud scheduler jobs create http "$JOB_NAME" \
+              --location="${REGION}" \
+              --schedule="${CRON_EXPR}" \
+              --time-zone="America/New_York" \
+              --uri="${URL}" \
+              --http-method=POST \
+              --message-body='${{ env.SCHEDULE_BODY }}' \
+              --oidc-service-account-email="${RUNTIME_SA}" \
+              --oidc-token-audience="${URL}"
+          fi

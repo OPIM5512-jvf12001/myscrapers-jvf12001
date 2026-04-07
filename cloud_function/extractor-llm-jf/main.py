@@ -257,42 +257,19 @@ def _vertex_extract_fields(raw_text: str) -> dict:
     return parsed
 
 
-# -------------------- HTTP ENTRY --------------------
-def llm_extract_http(request: Request):
+
+def process_run_logic(run_id, max_files=0, overwrite=False):
     """
-    Reads latest (or requested) run's per-listing JSONL inputs and writes LLM outputs.
+    The main bulk of the logic used to process the scraped data has been moved here outside of the http_extract function
+    this way I can re-use this code for a secondary entry point where I can trigger the code from a pub/sub. This will allow
+    me to process a large backlog of files in parallel without timing out.
+
     """
-    logging.getLogger().setLevel(logging.INFO)
-
-    if not BUCKET_NAME:
-        return jsonify({"ok": False, "error": "missing GCS_BUCKET env"}), 500
-    if not PROJECT_ID:
-        return jsonify({"ok": False, "error": "missing PROJECT_ID env"}), 500
-    if LLM_PROVIDER != "vertex":
-        return jsonify({"ok": False, "error": "PoC supports LLM_PROVIDER='vertex' only"}), 400
-
-    # Body overrides
-    try:
-        body = request.get_json(silent=True) or {}
-    except Exception:
-        body = {}
-
-    run_id = body.get("run_id")
-    max_files = int(body.get("max_files") or MAX_FILES_DEFAULT or 0)
-    overwrite = bool(body.get("overwrite")) if "overwrite" in body else OVERWRITE_DEFAULT
-
-    # Pick newest run if not provided
-    if not run_id:
-        runs = _list_structured_run_ids(BUCKET_NAME, STRUCTURED_PREFIX)
-        if not runs:
-            return jsonify({"ok": False, "error": f"no run_ids found under {STRUCTURED_PREFIX}/"}), 200
-        run_id = runs[-1]
-
     structured_iso = _normalize_run_id_iso(run_id)
 
     inputs = _list_raw_txt_files_for_run(BUCKET_NAME, run_id)
     if not inputs:
-        return jsonify({"ok": True, "run_id": run_id, "processed": 0, "written": 0, "skipped": 0, "errors": 0}), 200
+        return {"ok": True, "run_id": run_id, "processed": 0, "written": 0, "skipped": 0, "errors": 0}
     if max_files > 0:
         inputs = inputs[:max_files]
 
@@ -358,5 +335,52 @@ def llm_extract_http(request: Request):
         "skipped": skipped,
         "errors": errors,
     }
+
+    return result
+# -------------------- HTTP ENTRY --------------------
+def llm_extract_http(request: Request):
+    """
+    Reads latest (or requested) run's per-listing JSONL inputs and writes LLM outputs.
+    """
+    logging.getLogger().setLevel(logging.INFO)
+
+    if not BUCKET_NAME:
+        return jsonify({"ok": False, "error": "missing GCS_BUCKET env"}), 500
+    if not PROJECT_ID:
+        return jsonify({"ok": False, "error": "missing PROJECT_ID env"}), 500
+    if LLM_PROVIDER != "vertex":
+        return jsonify({"ok": False, "error": "PoC supports LLM_PROVIDER='vertex' only"}), 400
+
+    # Body overrides
+    try:
+        body = request.get_json(silent=True) or {}
+    except Exception:
+        body = {}
+
+    run_id = body.get("run_id")
+    max_files = int(body.get("max_files") or MAX_FILES_DEFAULT or 0)
+    overwrite = bool(body.get("overwrite")) if "overwrite" in body else OVERWRITE_DEFAULT
+
+    # Pick newest run if not provided
+    if not run_id:
+        runs = _list_structured_run_ids(BUCKET_NAME, STRUCTURED_PREFIX)
+        if not runs:
+            return jsonify({"ok": False, "error": f"no run_ids found under {STRUCTURED_PREFIX}/"}), 200
+        run_id = runs[-1]
+
+    result = process_run_logic(run_id, max_files, overwrite)
+    
     logging.info(json.dumps(result))
     return jsonify(result), 200
+
+
+# -------------------- PUB/SUB ENTRY --------------------
+
+def llm_extract_pubsub(event, context):
+    import base64
+    if 'data' in event:
+        run_id = base64.b64decode(event['data']).decode('utf-8')
+        logging.info(f"Pub/Sub triggering backlog for run_id: {run_id}")
+        
+        # Force overwrite=True so that I can check for new fields if updates are made.
+        process_run_logic(run_id=run_id, overwrite=True)

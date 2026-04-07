@@ -153,7 +153,8 @@ def _safe_int(x):
 # -------------------- VERTEX AI CALL --------------------
 def _vertex_extract_fields(raw_text: str) -> dict:
     """
-    Ask Gemini to return JSON with exactly: price, year, make, model, mileage, transmission.
+    Ask Gemini to return JSON with exactly: price, year, make, model, mileage, transmission, drivetrain, color
+    sunroof, retailer, vin, and title status.
     """
     model = _get_vertex_model()
 
@@ -170,9 +171,12 @@ def _vertex_extract_fields(raw_text: str) -> dict:
             "drivetrain": {"type": "string", "nullable": True},
             "color": {"type": "string", "nullable": True},
             "sunroof": {"type": "string", "nullable": True},
-            "retailer": {"type": "string", "nullable": True}
+            "retailer": {"type": "string", "nullable": True},
+            "vin": {"type": "string", "nullable": True},
+            "title_status": {"type": "string", "nullable": True}
         },
-        "required": ["price", "year", "make", "model", "mileage", "transmission", "drivetrain", "color", "sunroof", "retailer"]
+        "required": ["price", "year", "make", "model", "mileage", "transmission", "drivetrain", 
+        "color", "sunroof", "retailer", "vin", "title_status"]
     }
 
     # System instruction (will be prepended to the prompt)
@@ -188,6 +192,9 @@ def _vertex_extract_fields(raw_text: str) -> dict:
         "return the external paint color of the car specifically, disregard interior color. If multiple external paint colors are mentioned, return the phrase multiple colors"
         "for sunroof, return a yes or no depending on if a sunroof is present. count a moonroof as a sunroof"
         "for retailer, return the name of the business that is selling the vehicle, if the listing is an individual owner return: for sale by owner"
+        "for vin, the vin number should typically be clearly labeled, but it will be a 17 character alphanumeric string"
+        "for title status, there are many options, but some of the most common include clean, salvage, flood"
+
     )
 
     # FIX: Combine instruction and text into one prompt string (SDK compatibility)
@@ -244,6 +251,8 @@ def _vertex_extract_fields(raw_text: str) -> dict:
     parsed["color"] = _norm_str(parsed.get("color"))
     parsed["sunroof"] = _norm_str(parsed.get("sunroof"))
     parsed["retailer"] = _norm_str(parsed.get("retailer"))
+    parsed["vin"] = _norm_str(parsed.get("vin"))
+    parsed["title_status"] = _norm_str(parsed.get("title_status"))
 
     return parsed
 
@@ -326,6 +335,8 @@ def llm_extract_http(request: Request):
                 "color": parsed.get("color"),
                 "sunroof": parsed.get("sunroof"),
                 "retailer": parsed.get("retailer"),
+                "vin": parsed.get("vin"),
+                "title_status": parsed.get("title_status"),
                 "llm_provider": "vertex",
                 "llm_model": LLM_MODEL,
                 "llm_ts": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),

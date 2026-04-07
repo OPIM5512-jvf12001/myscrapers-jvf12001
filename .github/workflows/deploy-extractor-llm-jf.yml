@@ -19,6 +19,7 @@ env:
   FUNCTION_NAME: extractor-llm-jf
   FUNCTION_DIR: cloud_function/extractor-llm-jf
   ENTRY_POINT: llm_extract_http
+  BACKLOG_TOPIC: craigslist-backlog-topic
   RUNTIME: python312
   BUCKET_NAME: ${{ vars.BUCKET_NAME }}
   RUNTIME_SA: ${{ vars.RUNTIME_SA }}
@@ -92,6 +93,28 @@ jobs:
             --memory=1024Mi \
             "${SA_ARGS[@]}" \
             --set-env-vars="PROJECT_ID=${PROJECT_ID},GCS_BUCKET=${BUCKET_NAME},STRUCTURED_PREFIX=${LLM_STRUCTURED_PREFIX},LLM_PROVIDER=${LLM_PROVIDER},LLM_MODEL=${LLM_MODEL},OVERWRITE=${LLM_OVERWRITE},MAX_FILES=${LLM_MAX_FILES}"
+
+      - name: Deploy Pub/Sub Extractor (Backlog)
+        run: |
+          set -euo pipefail
+          SA_ARGS=()
+          if [[ -n "${RUNTIME_SA:-}" ]]; then
+            SA_ARGS=(--service-account="${RUNTIME_SA}")
+          fi
+
+          gcloud functions deploy "${FUNCTION_NAME}-backlog" \
+          --gen2 \
+          --region="${REGION}" \
+          --runtime="${RUNTIME}" \
+          --source="${FUNCTION_DIR}" \
+          --entry-point="llm_extract_pubsub" \
+          --trigger-topic="${BACKLOG_TOPIC}" \
+          --memory=512Mi \
+          --timeout=300s \
+          --max-instances=20 \
+          "${SA_ARGS[@]}" \
+          --set-env-vars="PROJECT_ID=${PROJECT_ID},GCS_BUCKET=${BUCKET_NAME},STRUCTURED_PREFIX=${LLM_STRUCTURED_PREFIX},LLM_PROVIDER=${LLM_PROVIDER},LLM_MODEL=${LLM_MODEL},OVERWRITE=true"
+
 
       - name: Get Function URL
         id: cfurl

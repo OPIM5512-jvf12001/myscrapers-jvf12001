@@ -244,17 +244,21 @@ def run_once(dry_run: bool = False, n_trials: int = 10, iterations: int = 500, d
     if not dry_run:
         artifacts, imp_df = generate_model_artifacts(final_model, X_train, y_train, cat_cols)
         
-        # Save Importance CSV
-        
-        _write_string_to_gcs(client, GCS_BUCKET, imp_key, artifacts['importance_csv'])
-        
-        # Save PDP Plot
-        
-        _write_bytes_to_gcs(client, GCS_BUCKET, pdp_key, artifacts['pdp_png'])
+        # Check if keys exist before trying to use them. This crashed a few runs.
+        if 'importance_csv' in artifacts:
+            _write_string_to_gcs(client, GCS_BUCKET, imp_key, artifacts['importance_csv'])
+            logging.info("Saved importance csv")
+            
+        if 'pdp_png' in artifacts:
+            _write_bytes_to_gcs(client, GCS_BUCKET, pdp_key, artifacts['pdp_png'])
+            logging.info("Saved PDP plot")
 
-        # Save make rankings
+        if 'make_rankings_csv' in artifacts:
+            _write_string_to_gcs(client, GCS_BUCKET, rank_key, artifacts['make_rankings_csv'])
+            logging.info("Saved make rankings")
         
-        _write_string_to_gcs(client, GCS_BUCKET, rank_key, artifacts['make_rankings_csv'])
+        if 'error' in artifacts:
+            logging.warning(f"Artifacts partially failed: {artifacts['error']}")
 
     # ---- Predict/evaluate on today's holdout (now includes actual price fields) ----
     mae_today = None

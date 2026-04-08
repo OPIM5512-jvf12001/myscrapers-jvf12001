@@ -146,6 +146,9 @@ def run_once(dry_run: bool = False, n_trials: int = 10, iterations: int = 500):
     if len(unique_dates) < 2:
         return {"status": "noop", "reason": "need at least two distinct dates", "dates": [str(d) for d in unique_dates]}
 
+    for col in cat_cols:
+        df[col] = df[col].fillna("unknown").astype(str)
+
     today_local = unique_dates[-1]
     train_df   = df[df["date_local"] <  today_local].copy()
     holdout_df = df[df["date_local"] == today_local].copy()

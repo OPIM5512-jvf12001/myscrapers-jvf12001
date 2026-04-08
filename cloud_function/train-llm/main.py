@@ -135,6 +135,7 @@ def run_once(dry_run: bool = False, n_trials: int = 10, iterations: int = 500):
     # Adding code to try to predict log(price) instead of raw price in order to account for price variation
     df["target_log"] = np.log1p(df["price_num"])
     target = "target_log"
+    df = df.dropna(subset=[target])
 
     valid_price_rows = int(df["price_num"].notna().sum())
     logging.info("Rows total=%d | with valid numeric price=%d", orig_rows, valid_price_rows)

@@ -79,8 +79,11 @@ def generate_model_artifacts(model, X, y, cat_cols):
     
     for i, feat in enumerate(top_3):
         pd_results = partial_dependence(model, X, features=[feat], kind="average")
-        ax[i].plot(pd_results['values'][0], pd_results['average'][0])
+        x_axis = pd_results['grid_values'][0]
+        y_axis = np.expm1(pd_results['average'][0])
+        ax[i].plot(x_axis, y_axis)
         ax[i].set_title(f'PDP: {feat}')
+        ax[i].set_ylabel('Predicted Price ($)')
         ax[i].grid(True)
     
     buf = io.BytesIO()

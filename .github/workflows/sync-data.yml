@@ -49,30 +49,23 @@ jobs:
           # 2a. Find the LATEST folder/run_id in GCS
           LATEST_RUN_DIR=$(gsutil ls -d gs://${BUCKET_NAME}/${GCS_PREDS_PREFIX}/*/ | tail -1)
           
-          # 2b. Extract the timestamp (folder name, e.g., 2025120816)
           LATEST_RUN_ID=$(echo "$LATEST_RUN_DIR" | sed -E "s|gs://${BUCKET_NAME}/${GCS_PREDS_PREFIX}/||; s|/||")
-
-          # 2c. Define file paths and save variables to GITHUB_OUTPUT
-          LOCAL_FILENAME="$LATEST_RUN_ID-preds_llm.csv"
-          GCS_SOURCE_FILE="${{ env.GCS_PREDS_PREFIX }}/$LATEST_RUN_ID/preds_llm.csv"
-          LOCAL_TARGET_FILE="${{ env.OUTPUT_DIR }}/$LOCAL_FILENAME"
-          
           echo "run_id=$LATEST_RUN_ID" >> "$GITHUB_OUTPUT"
-          echo "filename=$LOCAL_FILENAME" >> "$GITHUB_OUTPUT"
-          
-          echo "Detected latest run ID: $LATEST_RUN_ID"
-          
-          # 2d. Create local folder and copy the file
+
           mkdir -p ${{ env.OUTPUT_DIR }} 
-          gsutil -m cp gs://${BUCKET_NAME}/${GCS_PREDS_PREFIX}/$LATEST_RUN_ID/* ${{ env.OUTPUT_DIR }}/
-          
-          cd ${{ env.OUTPUT_DIR }}
-          for file in *; do
-            if [[ "$file" != "$LATEST_RUN_ID-"* ]]; then
-              mv "$file" "$LATEST_RUN_ID-$file"
-              echo "Renamed $file to $LATEST_RUN_ID-$file"
+          mkdir -p tmp_download
+          gsutil -m cp gs://${BUCKET_NAME}/${GCS_PREDS_PREFIX}/$LATEST_RUN_ID/* tmp_download/
+
+          # Rename in TEMP and move to RESULTS
+          for file in tmp_download/*; do
+            filename=$(basename "$file")
+            # Only move and rename if the file doesn't already exist in results
+            if [ ! -f "${{ env.OUTPUT_DIR }}/$LATEST_RUN_ID-$filename" ]; then
+              mv "$file" "${{ env.OUTPUT_DIR }}/$LATEST_RUN_ID-$filename"
+              echo "Added: $LATEST_RUN_ID-$filename"
             fi
           done
+          rm -rf tmp_download
 
       # --- 3. COMMIT AND PUSH ---
       - name: Commit and Push New Timestamped File
@@ -82,15 +75,14 @@ jobs:
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
           
           RUN_ID="${{ steps.sync_artifacts.outputs.run_id }}"
-          
-          # Stage the newly created timestamped files
-          git add ${{ env.OUTPUT_DIR }}/$RUN_ID-*
-          
-          # Commit the new file
-          git commit -m "🤖 Data Sync: Add artifacts for run $RUN_ID (Preds, Importance, PDP)"
-          
-          # FIX 2: Pull the latest remote changes and rebase to resolve 'rejected' error
-          git pull --rebase origin main 
-          
-          # Push the changes
-          git push
+          git add ${{ env.OUTPUT_DIR }}/*
+
+          if ! git diff --cached --quiet; then
+            git commit -m "🤖 Data Sync: Add artifacts for run ${{ steps.sync_artifacts.outputs.run_id }}"
+            
+            # Use the "Force Pull" strategy to handle race conditions
+            git pull --rebase origin main
+            git push
+          else
+            echo "No new data to sync."
+          fi

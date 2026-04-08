@@ -64,54 +64,58 @@ def _preprocess_features(df):
 
 def generate_model_artifacts(model, X, y, cat_cols):
     artifacts = {}
-    
-    # Permutation Importance (Fast on smaller datasets)
-    perm_importance = permutation_importance(model, X, y, n_repeats=3, random_state=42)
-    importance_df = pd.DataFrame({
-        'feature': X.columns,
-        'importance': perm_importance.importances_mean
-    }).sort_values(by='importance', ascending=False)
-    artifacts['importance_csv'] = importance_df.to_csv(index=False)
-    
-    # PDPs for Top 3 Features
-    top_3 = importance_df['feature'].head(3).tolist()
-    fig, ax = plt.subplots(1, 3, figsize=(15, 5))
-    
-    for i, feat in enumerate(top_3):
-        pd_results = partial_dependence(model, X, features=[feat], kind="average")
-        x_axis = pd_results['grid_values'][0]
-        y_axis = np.expm1(pd_results['average'][0])
-        ax[i].plot(x_axis, y_axis)
-        ax[i].set_title(f'PDP: {feat}')
-        ax[i].set_ylabel('Predicted Price ($)')
-        ax[i].grid(True)
-    
-    buf = io.BytesIO()
-    plt.tight_layout()
-    plt.savefig(buf, format='png')
-    artifacts['pdp_png'] = buf.getvalue()
-    plt.close(fig)
+    try: 
+        # Permutation Importance
+        importances = model.get_feature_importance()
+        importance_df = pd.DataFrame({
+            'feature': X.columns,
+            'importance': importances
+        }).sort_values(by='importance', ascending=False)
+        artifacts['importance_csv'] = importance_df.to_csv(index=False)
+        
+        # PDPs for Top 3 Features
+        top_3 = importance_df['feature'].head(3).tolist()
+        fig, ax = plt.subplots(1, 3, figsize=(15, 5))
+        
+        for i, feat in enumerate(top_3):
+            pd_results = partial_dependence(model, X, features=[feat], kind="average")
+            x_axis = pd_results['grid_values'][0]
+            y_axis = np.expm1(pd_results['average'][0])
+            ax[i].plot(x_axis, y_axis)
+            ax[i].set_title(f'PDP: {feat}')
+            ax[i].set_ylabel('Predicted Price ($)')
+            ax[i].grid(True)
+        
+        buf = io.BytesIO()
+        plt.tight_layout()
+        plt.savefig(buf, format='png')
+        artifacts['pdp_png'] = buf.getvalue()
+        plt.close(fig)
 
-    # --- Pull out makes data specifically since the plot ends up being unreadable ---
-    if "make" in X.columns:
-        # Run PDP specifically for make
-        pd_make = partial_dependence(model, X, features=["make"], kind="average")
-        
-        # Extract the make names and their corresponding log prices
-        make_names = pd_make.get('grid_values', pd_make.get('values'))[0]
-        avg_log_prices = pd_make['average'][0]
-        
-        # Convert log prices to actual dollars
-        avg_dollar_prices = np.expm1(avg_log_prices)
-        
-        make_rank_df = pd.DataFrame({
-            'make': make_names,
-            'pred_price': avg_dollar_prices
-        }).sort_values(by='pred_price', ascending=False)
-        
-        # You could also add this to your artifacts dictionary to save to GCS
-        artifacts['make_rankings_csv'] = make_rank_df.to_csv(index=False)
-    
+        # --- Pull out makes data specifically since the plot ends up being unreadable ---
+        if "make" in X.columns:
+            # Run PDP specifically for make
+            pd_make = partial_dependence(model, X, features=["make"], kind="average")
+            
+            # Extract the make names and their corresponding log prices
+            make_names = pd_make.get('grid_values', pd_make.get('values'))[0]
+            avg_log_prices = pd_make['average'][0]
+            
+            # Convert log prices to actual dollars
+            avg_dollar_prices = np.expm1(avg_log_prices)
+            
+            make_rank_df = pd.DataFrame({
+                'make': make_names,
+                'pred_price': avg_dollar_prices
+            }).sort_values(by='pred_price', ascending=False)
+            
+            # You could also add this to your artifacts dictionary to save to GCS
+            artifacts['make_rankings_csv'] = make_rank_df.to_csv(index=False)
+
+    except Exception as e:
+        logging.error(f"Artifact generation failed, skipping to save predictions: {e}")
+        artifacts = {'error': str(e)}
+
     return artifacts, importance_df
 
 def _write_string_to_gcs(client: storage.Client, bucket: str, key: str, content: str):

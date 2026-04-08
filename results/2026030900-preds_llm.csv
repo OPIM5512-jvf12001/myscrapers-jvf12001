@@ -1,0 +1,13 @@
+scraped_at,price,year,make,model,mileage,transmission,drivetrain,color,sunroof,retailer,vin,title_status,actual_price,pred_price,actual_log_price,pred_log_price
+2026-03-09T20:00:32Z,20295.0,2023,Dodge,Challenger,54799.0,unknown,RWD,black,no,VICTORY MITSUBISHI,2C3CDZJG9PH514828,clean,20295.0,28803.13,9.918179101279117,10.2683
+2026-03-09T16:00:39Z,2000.0,2006,Honda,Accord,200000.0,automatic,unknown,unknown,no,for sale by owner,,clean,2000.0,3034.81,7.601402334583733,8.0182
+2026-03-09T13:00:36Z,9499.0,2016,Toyota,Prius Two,173177.0,automatic,FWD,silver,no,Prime Auto,,clean,9499.0,4802.89,9.159047077588632,8.4772
+2026-03-09T09:00:28Z,10998.0,2014,Subaru,Outback,116909.0,manual,AWD,black,no,East Granby Motors Subaru Specialists,4S4BRBAC8E1211592,clean,10998.0,19349.66,9.305559638557117,9.8705
+2026-03-09T09:00:28Z,8995.0,2011,Jeep,Grand Cherokee Overland,135168.0,automatic,4WD,black,yes,WEST HAVEN AUTO SALES LLC,,clean,8995.0,7957.01,9.104535313079205,8.9819
+2026-03-09T08:00:39Z,4500.0,2013,Fiat,500 Abarth,205149.0,manual,FWD,unknown,no,Oceanside Auto LLC,3C3CFFFH3DT553475,clean,4500.0,10765.64,8.412054873292933,9.2842
+2026-03-09T22:00:05Z,9998.0,2016,Subaru,Crosstrek,147973.0,manual,AWD,white,no,East Granby Motors Subaru Specialists,JF2GPABC6GG317775,clean,9998.0,17122.9,9.21024036697585,9.7482
+2026-03-09T08:00:39Z,2000.0,2022,acura,tlx,30000.0,automatic,unknown,unknown,yes,Melillo Motors,,clean,2000.0,2481.91,7.601402334583733,7.8172
+2026-03-09T13:00:36Z,6875.0,2008,Chevrolet,Silverado 1500,167190.0,automatic,RWD,blue,no,BEL-AIR AUTO SALES,1GCEC14X78Z170034,clean,6875.0,7467.3,8.83579236650274,8.9184
+2026-03-09T07:00:28Z,2000.0,2010,Honda,Element EX,125884.0,automatic,unknown,unknown,unknown,for sale by owner,,clean,2000.0,3857.07,7.601402334583733,8.2579
+2026-03-09T09:00:28Z,11000.0,2019,Audi,Q5 Prestige,141500.0,automatic,4WD,blue,unknown,for sale by owner,,clean,11000.0,8666.13,9.305741456739435,9.0673
+2026-03-09T09:00:28Z,2950.0,2014,subaru,legacy,212000.0,automatic,4WD,unknown,no,for sale by owner,,clean,2950.0,5346.28,7.989899374942939,8.5843

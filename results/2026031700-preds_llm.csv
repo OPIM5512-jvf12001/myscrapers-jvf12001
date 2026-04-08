@@ -1,0 +1,11 @@
+scraped_at,price,year,make,model,mileage,transmission,drivetrain,color,sunroof,retailer,vin,title_status,actual_price,pred_price,actual_log_price,pred_log_price
+2026-03-17T06:00:18Z,8700.0,2007,Jeep,Wrangler Sahara,174000.0,manual,4WD,red,no,for sale by owner,,clean,8700.0,4993.12,9.071193240566025,8.516
+2026-03-17T17:00:06Z,10998.0,2016,Subaru,Outback,147397.0,automatic,AWD,black,no,East Granby Motors Subaru Specialists,4S4BSBLC8G3244889,clean,10998.0,9202.9,9.305559638557117,9.1274
+2026-03-17T12:00:11Z,7000.0,2017,Hyundai,Sonata,77845.0,automatic,FWD,blue,no,for sale by owner,,rebuilt,7000.0,6735.36,8.853808274977197,8.8153
+2026-03-17T18:00:41Z,8300.0,2014,JEEP,WRANGLER SPORT,163000.0,manual,4WD,silver,no,for sale by owner,,clean,8300.0,5510.04,9.024131268455035,8.6145
+2026-03-17T18:00:41Z,26250.0,2026,Nissan,Rogue,1200.0,automatic,4WD,black,unknown,for sale by owner,,clean,26250.0,21680.1,10.17545936253226,9.9842
+2026-03-18T00:00:19Z,12900.0,2016,mercedes-benz,GLE 350,133985.0,automatic,AWD,white,yes,"Preece's Auto, Inc.",4JGDA5HB4GA723108,clean,12900.0,12699.54,9.465060106725137,9.4494
+2026-03-17T19:00:06Z,11900.0,2010,toyota,tacoma,168916.0,automatic,4WD,silver,no,"Preece's Auto, Inc.",5TEUU4EN0AZ692232,clean,11900.0,11206.24,9.38437770918244,9.3243
+2026-03-17T19:00:06Z,58925.0,1967,Chevrolet,Corvette,19440.0,manual,unknown,unknown,unknown,for sale by dealer,,clean,58925.0,10339.56,10.98403769838583,9.2438
+2026-03-18T01:00:24Z,3000.0,2009,Nissan,Altima,129000.0,automatic,unknown,unknown,no,for sale by owner,,clean,3000.0,3430.24,8.006700845440367,8.1407
+2026-03-17T18:00:41Z,750.0,2004,mercedes-benz,C240,243750.0,automatic,FWD,silver,unknown,for sale by owner,,clean,750.0,2492.57,6.621405651764134,7.8215

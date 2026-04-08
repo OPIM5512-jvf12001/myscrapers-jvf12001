@@ -1,0 +1,11 @@
+scraped_at,price,year,make,model,mileage,transmission,drivetrain,color,sunroof,retailer,vin,title_status,actual_price,pred_price,actual_log_price,pred_log_price
+2026-03-08T17:00:30Z,5400.0,2013,Volkswagen,Gti,185000.0,automatic,unknown,grey,no,for sale by owner,,clean,5400.0,4849.15,8.594339400592892,8.4868
+2026-03-08T20:00:34Z,24000.0,2014,Dodge,Grand Caravan,123510.0,automatic,FWD,white,no,for sale by owner,,clean,24000.0,5739.11,10.085850775128717,8.6552
+2026-03-08T17:00:30Z,19500.0,2021,Nissan,Maxima,81100.0,automatic,FWD,black,yes,for sale by owner,,clean,19500.0,7047.36,9.87822102528824,8.8606
+2026-03-08T11:00:38Z,17800.0,2022,Nissan,Murano SV,34000.0,automatic,AWD,unknown,no,for sale by owner,,clean,17800.0,11868.47,9.787009914477434,9.3817
+2026-03-08T22:00:22Z,26295.0,2021,Lexus,Nx,47546.0,unknown,4WD,black,unknown,VICTORY MITSUBISHI,JTJSARDZ8M2251486,clean,26295.0,24025.99,10.177172115344055,10.0869
+2026-03-08T20:00:34Z,4800.0,2011,Hyundai,Elantra GLS,110000.0,automatic,FWD,Radiant Silver Metallic,no,for sale by owner,,clean,4800.0,5318.37,8.476579508530941,8.5791
+2026-03-08T11:00:38Z,10900.0,2018,Chevrolet,Equinox L,94000.0,automatic,4WD,grey,no,for sale by owner,3GNAXREVXJS513251,clean,10900.0,13130.45,9.296609807128359,9.4828
+2026-03-08T19:00:36Z,14900.0,2017,Lincoln,MKT Limo,190964.0,automatic,4WD,black,no,for sale by owner,2L1MJ5LT2HBL00485,clean,14900.0,7825.69,9.60918360377546,8.9653
+2026-03-08T15:00:38Z,4400.0,2008,cadillac,escalade,250000.0,automatic,4WD,unknown,unknown,for sale by owner,,clean,4400.0,4430.9,8.38958706681109,8.3966
+2026-03-08T17:00:30Z,2900.0,2008,toyota,scion xb,209000.0,automatic,FWD,purple,no,for sale by owner,,clean,2900.0,3948.41,7.972810784121404,8.2813

@@ -1,0 +1,13 @@
+scraped_at,price,year,make,model,mileage,transmission,drivetrain,color,sunroof,retailer,vin,title_status,actual_price,pred_price,actual_log_price,pred_log_price
+2026-03-23T11:00:07Z,5800.0,2011,Ford,Fiesta SE,46123.0,automatic,FWD,blue,unknown,BEL-AIR AUTO SALES,3FADP4EJ0BM137340,clean,5800.0,15936.47,8.665785595466064,9.6764
+2026-03-23T07:00:30Z,6000.0,2009,Audi,A4 2.0T Quattro,114115.0,automatic,AWD,silver,yes,for sale by dealer,,clean,6000.0,7158.19,8.699681400989514,8.8762
+2026-03-23T07:00:30Z,12500.0,2016,jeep,wrangler,108000.0,automatic,4WD,black,unknown,for sale by owner,,clean,12500.0,9433.8,9.433563920090563,9.1522
+2026-03-23T07:00:30Z,7500.0,2016,Chevrolet,Trax LS,81652.0,automatic,AWD,black,no,for sale by dealer,,clean,7500.0,10458.78,8.922791623969637,9.2553
+2026-03-23T07:00:30Z,74495.0,2026,Chrysler,Pacifica,25.0,automatic,FWD,Silver,no,New England Motor Car Company,2C4RC1BG4TR192211,clean,74495.0,46603.17,11.218500711651055,10.7494
+2026-03-23T23:00:38Z,8998.0,2012,Subaru,Outback,130671.0,automatic,AWD,red,no,East Granby Motors Subaru Specialists,4S4BRBAC0C3249870,clean,8998.0,8837.35,9.104868739033948,9.0869
+2026-03-24T01:00:17Z,29900.0,2023,Jeep,Grand Cherokee,23023.0,automatic,AWD,black,no,"Preece's Auto, Inc.",1C4RJHAG5PC560099,clean,29900.0,28903.51,10.305647203635566,10.2718
+2026-03-24T01:00:17Z,13900.0,2017,Ford,Explorer,83323.0,automatic,4WD,Magnetic Metallic,unknown,CT Auto - BAD CREDIT- NO CREDIT- NO PROBLEM!,1FM5K8GT3HGC02134,clean,13900.0,15571.36,9.539716058977092,9.6533
+2026-03-23T16:00:36Z,4100.0,2013,Subaru,Outback,194800.0,automatic,4WD,green,no,for sale by owner,4S4BRBKCXD3306088,clean,4100.0,5417.06,8.31898612539206,8.5975
+2026-03-23T08:00:29Z,8900.0,2017,subaru,outback 3.6r limited,179800.0,automatic,4WD,black,unknown,"Preece's Auto, Inc.",4S4BSENC0H3370566,clean,8900.0,9702.85,9.093918908958932,9.1803
+2026-03-23T22:00:31Z,2000.0,2016,chevy,silverado 1500,90000.0,automatic,4WD,blue,no,MELILLO MOTORS,,clean,2000.0,2135.04,7.601402334583733,7.6667
+2026-03-24T03:00:07Z,2000.0,2022,acura,tlx,30000.0,automatic,unknown,unknown,yes,Melillo Motors,,clean,2000.0,1957.78,7.601402334583733,7.5801

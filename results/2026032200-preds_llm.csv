@@ -1,0 +1,18 @@
+scraped_at,price,year,make,model,mileage,transmission,drivetrain,color,sunroof,retailer,vin,title_status,actual_price,pred_price,actual_log_price,pred_log_price
+2026-03-22T17:00:35Z,3800.0,2013,Hyundai,Sonata,220000.0,automatic,FWD,blue,yes,for sale by owner,,clean,3800.0,3974.91,8.24301946898925,8.288
+2026-03-22T11:00:31Z,3500.0,2014,Hyundai,sonata,172000.0,automatic,FWD,black,no,for sale by owner,,clean,3500.0,5631.49,8.160803920954665,8.6363
+2026-03-22T09:00:23Z,5985.0,2009,Toyota,Prius Touring Hybrid Hatchback,165000.0,automatic,FWD,white,no,for sale by owner,JTDKB20U393528421,clean,5985.0,6356.97,8.697178688412643,8.7575
+2026-03-23T02:00:33Z,3288.0,2002,Dodge,Neon,150000.0,automatic,unknown,unknown,no,Cheap Auto Rental,,clean,3288.0,3338.58,8.098338846189057,8.1136
+2026-03-22T12:00:40Z,21700.0,2023,Tesla,Model 3,49000.0,unknown,RWD,white,unknown,for sale by owner,,lien,21700.0,13059.52,9.985113621416073,9.4773
+2026-03-22T10:00:26Z,6500.0,2009,Buick,Lucerne,84000.0,automatic,FWD,red,unknown,WEST HAVEN AUTO SALES LLC,,clean,6500.0,6026.26,8.77971129020447,8.704
+2026-03-22T12:00:40Z,4500.0,2014,VW,JETTA SE,173000.0,automatic,FWD,grey,no,for sale by owner,,clean,4500.0,3556.4,8.412054873292933,8.1768
+2026-03-22T22:00:22Z,56500.0,2023,BMW,M240i,31000.0,automatic,4WD,grey,no,for sale by owner,,clean,56500.0,23585.31,10.942013616092948,10.0684
+2026-03-22T23:00:15Z,6990.0,2011,Cadillac,SRX,163000.0,automatic,AWD,black,yes,WEST HAVEN AUTO SALES LLC,,clean,6990.0,7342.75,8.852378886511985,8.9016
+2026-03-22T12:00:40Z,7500.0,2011,chevrolet,silverado 1500,128456.0,automatic,unknown,unknown,unknown,for sale by owner,,clean,7500.0,3564.21,8.922791623969637,8.179
+2026-03-22T11:00:31Z,5500.0,2013,ford,escape,140000.0,automatic,4WD,black,no,for sale by dealer,,clean,5500.0,7742.78,8.612685172875459,8.9546
+2026-03-23T03:00:06Z,15995.0,2015,Toyota,Highlander XLE,159971.0,automatic,AWD,white,no,Platinum Motors CT,5TDJKRFH1FS109038,clean,15995.0,8267.28,9.680093969966709,9.0202
+2026-03-22T21:00:22Z,5300.0,2005,toyota,tacoma,153000.0,automatic,RWD,blue,no,for sale by owner,,clean,5300.0,5691.88,8.575650760987806,8.647
+2026-03-23T01:00:06Z,8999.0,2021,hyundai,accent se,71000.0,automatic,FWD,grey,unknown,for sale by owner,,clean,8999.0,8564.02,9.104979856318357,9.0554
+2026-03-22T19:00:19Z,49900.0,2025,Ford,Bronco,7000.0,automatic,4WD,black,no,Auto Sales Center Inc.,,clean,49900.0,25185.33,10.817796321618971,10.1341
+2026-03-22T14:00:22Z,5000.0,2011,subaru,outback,170000.0,automatic,4WD,blue,yes,for sale by dealer,,clean,5000.0,4327.15,8.517393171418904,8.3729
+2026-03-22T23:00:15Z,7600.0,2011,HONDA,CR-V LX,179000.0,automatic,AWD,unknown,no,for sale by owner,,clean,7600.0,6200.64,8.936035096566041,8.7326

@@ -1,0 +1,4 @@
+scraped_at,price,year,make,model,mileage,transmission,drivetrain,color,sunroof,retailer,vin,title_status,actual_price,pred_price,actual_log_price,pred_log_price
+2026-03-30T03:00:37Z,4200.0,2018,Kia,soul +,170000.0,automatic,FWD,silver,no,for sale by owner,,clean,4200.0,5216.03,8.343077871169383,8.5597
+2026-03-29T10:00:30Z,2000.0,2022,acura,tlx,30000.0,automatic,unknown,unknown,yes,melillomotors.com,,unknown,2000.0,3041.29,7.601402334583733,8.0204
+2026-03-29T11:00:38Z,3000.0,2007,Ford,escape,110000.0,automatic,4WD,red,no,for sale by owner,,unknown,3000.0,6269.7,8.006700845440367,8.7436

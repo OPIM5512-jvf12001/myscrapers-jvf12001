@@ -1,0 +1,6 @@
+scraped_at,price,year,make,model,mileage,transmission,drivetrain,color,sunroof,retailer,vin,title_status,actual_price,pred_price,actual_log_price,pred_log_price
+2026-03-28T15:00:32Z,10900.0,2017,Land Rover,Discovery,165497.0,automatic,unknown,green,unknown,CT Auto - BAD CREDIT- NO CREDIT- NO PROBLEM!,SALRHBBK6HA016938,clean,10900.0,10613.33,9.296609807128359,9.27
+2026-03-28T04:00:29Z,10000.0,2008,ford,f-350,126000.0,automatic,RWD,white,no,for sale by owner,,clean,10000.0,11259.38,9.210440366976517,9.329
+2026-03-29T02:00:31Z,2200.0,2005,Toyota,Prius Hybrid,270000.0,automatic,unknown,unknown,no,for sale by owner,,unknown,2200.0,3063.4,7.696667081526462,8.0276
+2026-03-28T23:00:33Z,6950.0,2017,Kia,Sportage,105000.0,automatic,FWD,silver,no,for sale by owner,,clean,6950.0,6897.04,8.846640813100485,8.839
+2026-03-28T15:00:32Z,7885.0,2014,Toyota,Prius Three Hybrid Hatchback,138000.0,automatic,FWD,blue,yes,for sale by owner,JTDKN3DU6E1749105,clean,7885.0,6728.97,8.972844314437573,8.8143

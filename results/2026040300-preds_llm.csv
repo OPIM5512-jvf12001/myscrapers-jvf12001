@@ -1,0 +1,14 @@
+scraped_at,price,year,make,model,mileage,transmission,drivetrain,color,sunroof,retailer,vin,title_status,actual_price,pred_price,actual_log_price,pred_log_price
+2026-04-03T14:00:17Z,5900.0,2008,Toyota,Corolla,139374.0,automatic,FWD,gold,no,CT Auto - BAD CREDIT- NO CREDIT- NO PROBLEM!,2T1BR32E18C902862,clean,5900.0,5285.59,8.682877107057168,8.5729
+2026-04-03T15:00:26Z,7300.0,2010,HONDA,CR-V LX,149000.0,automatic,AWD,unknown,no,for sale by owner,,clean,7300.0,5708.16,8.895766604056085,8.6498
+2026-04-03T08:00:25Z,32930.0,2018,Lexus,LX 570,75788.0,automatic,AWD,unknown,yes,for sale by dealer,,clean,32930.0,14481.83,10.402169742355426,9.5807
+2026-04-03T14:00:17Z,31930.0,2019,unknown,Tundra,59082.0,automatic,AWD,unknown,yes,for sale by dealer,,unknown,31930.0,11544.9,10.371332603727652,9.3541
+2026-04-04T03:00:24Z,2000.0,2020,honda,accord,20000.0,automatic,4WD,blue,yes,MELILLO MOTORS!,,unknown,2000.0,2476.64,7.601402334583733,7.8151
+2026-04-03T15:00:26Z,7200.0,2010,TOYOTA,CAMRY LE,149000.0,automatic,4WD,unknown,no,for sale by owner,,unknown,7200.0,4807.53,8.881975184248867,8.4781
+2026-04-03T14:00:17Z,32920.0,2018,Lexus,LX 570,75788.0,automatic,unknown,unknown,yes,for sale by dealer,,unknown,32920.0,10077.28,10.401866031000361,9.2181
+2026-04-03T12:00:26Z,31920.0,2019,Toyota,Tundra,59082.0,automatic,unknown,unknown,yes,for sale by dealer,,unknown,31920.0,6055.15,10.371019379393825,8.7088
+2026-04-03T12:00:26Z,2000.0,2022,acura,tlx,30000.0,automatic,unknown,unknown,yes,Melillo Motors,,unknown,2000.0,1679.12,7.601402334583733,7.4266
+2026-04-03T04:00:52Z,9900.0,2015,Mercedes-Benz,GLK-Class,123897.0,automatic,RWD,red,no,CT Auto - BAD CREDIT- NO CREDIT- NO PROBLEM!,,unknown,9900.0,9446.61,9.200391041122515,9.1535
+2026-04-03T04:00:52Z,15500.0,2018,BMW,X2,79633.0,automatic,AWD,black,no,CT Auto - BAD CREDIT- NO CREDIT- NO PROBLEM!,WBXYJ5C31JEF68920,clean,15500.0,17025.07,9.648659816955295,9.7425
+2026-04-03T18:00:37Z,7800.0,2012,ACURA,MDX SPORT,166000.0,automatic,AWD,unknown,no,for sale by owner,,unknown,7800.0,5110.7,8.962007209588313,8.5393
+2026-04-03T10:00:06Z,50315.0,2017,Mercedes,G 63 AMG,43393.0,automatic,unknown,unknown,yes,for sale by owner,,unknown,50315.0,6183.15,10.826078396958764,8.7297

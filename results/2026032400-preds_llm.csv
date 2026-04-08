@@ -1,0 +1,13 @@
+scraped_at,price,year,make,model,mileage,transmission,drivetrain,color,sunroof,retailer,vin,title_status,actual_price,pred_price,actual_log_price,pred_log_price
+2026-03-24T11:00:17Z,3288.0,2002,Dodge,Neon,150000.0,automatic,unknown,unknown,no,Cheap Auto Rental,,clean,3288.0,3300.93,8.098338846189057,8.1023
+2026-03-24T11:00:17Z,7999.0,2012,Fiat,500,37851.0,manual,FWD,blue,no,for sale by dealer,,clean,7999.0,7298.84,8.987196820661973,8.8956
+2026-03-24T07:00:48Z,19500.0,1992,Mercedes-Benz,SL500,41000.0,automatic,RWD,red,no,for sale by owner,,clean,19500.0,15422.23,9.87822102528824,9.6436
+2026-03-24T11:00:17Z,7000.0,2012,Honda,Civic,88000.0,automatic,FWD,grey,yes,for sale by owner,,clean,7000.0,6715.61,8.853808274977197,8.8123
+2026-03-24T12:00:43Z,9998.0,2015,Subaru,XV Crosstrek,154359.0,automatic,AWD,Gray,no,East Granby Motors Subaru Specialists,JF2GPADC7F8266728,clean,9998.0,10146.42,9.21024036697585,9.225
+2026-03-24T12:00:43Z,3900.0,2012,NISSAN,JUKE SV,168000.0,automatic,AWD,red,yes,for sale by owner,,clean,3900.0,5003.14,8.268988209506656,8.518
+2026-03-24T19:00:23Z,8985.0,2014,BMW,X3 3.5i x-drive SUV,100000.0,automatic,4WD,Space Grey Blue Metallic,yes,for sale by owner,5UXWX7C58E0E75362,clean,8985.0,10646.17,9.103423089630105,9.273
+2026-03-24T04:00:30Z,3200.0,2006,acura,tsx,211000.0,automatic,FWD,red,yes,for sale by owner,,clean,3200.0,2731.55,8.071218539969863,7.913
+2026-03-24T16:00:06Z,2800.0,2002,Mazda,626,65000.0,automatic,FWD,purple,no,for sale by owner,,clean,2800.0,8004.86,7.937731775260109,8.9879
+2026-03-24T21:00:39Z,1500.0,2012,Mazda,6,271500.0,automatic,FWD,red,no,for sale by owner,,clean,1500.0,2234.43,7.313886831633462,7.7122
+2026-03-24T12:00:43Z,5900.0,2007,lexus,ls 460,180000.0,automatic,RWD,white,no,for sale by owner,,clean,5900.0,5239.03,8.682877107057168,8.5641
+2026-03-24T12:00:43Z,6488.0,2014,Nissan,altima 2.5 sv,117455.0,automatic,FWD,white,yes,WEST HAVEN AUTO SALES LLC,,clean,6488.0,7798.52,8.77786371462117,8.9618

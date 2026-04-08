@@ -1,0 +1,20 @@
+scraped_at,price,year,make,model,mileage,transmission,drivetrain,color,sunroof,retailer,vin,title_status,actual_price,pred_price,actual_log_price,pred_log_price
+2026-03-30T06:00:18Z,11900.0,2014,Acura,MDX,145379.0,automatic,AWD,Fathom Blue Pearl,no,CT Auto - BAD CREDIT- NO CREDIT- NO PROBLEM!,,unknown,11900.0,7024.66,9.38437770918244,8.8573
+2026-03-30T20:00:13Z,15000.0,2005,Toyota,Tundra,105000.0,automatic,4WD,white,yes,for sale by owner,,unknown,15000.0,6391.59,9.61587214452889,8.7629
+2026-03-30T21:00:32Z,13000.0,2005,Dodge,Ram 2500 5.9L Cummins,216000.0,automatic,4WD,white,unknown,for sale by owner,,clean,13000.0,3407.62,9.472781556562168,8.1341
+2026-03-30T16:00:33Z,7485.0,2013,Mercedes-Benz,C300,130000.0,automatic,AWD,red,yes,for sale by owner,WDDGF8AB4DG047546,clean,7485.0,6577.12,8.920789888464375,8.7915
+2026-03-31T00:00:30Z,13000.0,2020,Toyota,Corolla LE,60249.0,automatic,unknown,blue,no,for sale by owner,,unknown,13000.0,6820.71,9.472781556562168,8.8279
+2026-03-31T02:00:34Z,8495.0,2016,Subaru,Impreza,135000.0,automatic,AWD,unknown,no,Angelos Auto Center,,clean,8495.0,5386.58,9.04735074348172,8.5919
+2026-03-30T15:00:17Z,4500.0,2008,Audi,A4 Quattro,109000.0,automatic,AWD,unknown,unknown,for sale by owner,,clean,4500.0,7748.79,8.412054873292933,8.9554
+2026-03-30T19:00:20Z,10885.0,2016,GMC,Acadia,110000.0,automatic,AWD,black,yes,for sale by owner,1GKKVRKD2GJ235281,clean,10885.0,11380.42,9.295232838994146,9.3397
+2026-03-30T11:00:16Z,3288.0,2002,Dodge,Neon,150000.0,automatic,unknown,unknown,no,Cheap Auto Rental,,unknown,3288.0,3817.22,8.098338846189057,8.2475
+2026-03-31T01:00:36Z,1800.0,2007,nissan,pathfinder,168000.0,automatic,4WD,grey,no,for sale by owner,,clean,1800.0,6074.27,7.496097345175956,8.712
+2026-03-30T23:00:30Z,9495.0,2020,Subaru,Impreza,123946.0,automatic,AWD,blue,no,The Used Car Company LLC,,clean,9495.0,7895.64,9.158625936289503,8.9742
+2026-03-30T22:00:06Z,2995.0,1990,Toyota,Celica GT,140000.0,manual,unknown,unknown,no,for sale by owner,,unknown,2995.0,5812.93,8.005033344637111,8.668
+2026-03-31T00:00:30Z,8995.0,2016,Chrysler,300C,128235.0,automatic,AWD,red,no,The Used Car Company LLC,,unknown,8995.0,7733.07,9.104535313079205,8.9534
+2026-03-31T00:00:30Z,10800.0,2019,Dodge,Charger,54917.0,automatic,RWD,White Knuckle Clearcoat,no,CT Auto - BAD CREDIT- NO CREDIT- NO PROBLEM!,,unknown,10800.0,9451.9,9.287394001418473,9.1541
+2026-03-31T03:00:06Z,13500.0,2018,BMW,X1,86540.0,automatic,FWD,Mineral White Metallic,no,CT Auto - BAD CREDIT- NO CREDIT- NO PROBLEM!,,unknown,13500.0,9019.65,9.510519035757246,9.1073
+2026-03-30T18:00:32Z,14850.0,2018,INFINITI,Q50,139096.0,automatic,4WD,white,no,CT Auto - BAD CREDIT- NO CREDIT- NO PROBLEM!,,unknown,14850.0,7250.21,9.605822482030945,8.8889
+2026-03-30T13:00:36Z,2000.0,2004,Subaru,Forester,244000.0,automatic,AWD,green,no,for sale by owner,,unknown,2000.0,3542.18,7.601402334583733,8.1728
+2026-03-30T08:00:26Z,3950.0,2007,ford,E250,128000.0,automatic,RWD,white,no,for sale by owner,,unknown,3950.0,7664.08,8.281723990411392,8.9444
+2026-03-30T11:00:16Z,9300.0,2008,ford,f-350,109000.0,manual,4WD,unknown,no,for sale by owner,,clean,9300.0,9163.21,9.137877200242468,9.1231

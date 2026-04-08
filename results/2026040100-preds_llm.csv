@@ -1,0 +1,7 @@
+scraped_at,price,year,make,model,mileage,transmission,drivetrain,color,sunroof,retailer,vin,title_status,actual_price,pred_price,actual_log_price,pred_log_price
+2026-04-01T23:00:35Z,8485.0,2013,BMW,328i X-drive AWD Sedan,113000.0,automatic,AWD,black,yes,for sale by owner,WBA3B3C59DF532525,clean,8485.0,7959.19,9.04617302576227,8.9822
+2026-04-01T16:00:28Z,2200.0,1993,Buick,regal custom coupe,54600.0,automatic,unknown,unknown,no,for sale by owner,,clean,2200.0,3188.38,7.696667081526462,8.0676
+2026-04-01T23:00:35Z,4700.0,2014,volkswagen,jetta,158000.0,unknown,FWD,blue,no,for sale by owner,,clean,4700.0,5325.42,8.45553053102413,8.5804
+2026-04-01T08:00:15Z,12001.0,2016,Lexus,RX350,16000.0,automatic,AWD,Caviar,yes,for sale by owner,,unknown,12001.0,18197.03,9.392828581549459,9.8091
+2026-04-01T11:00:21Z,2200.0,1993,Buick,regal custom coupe,54600.0,automatic,unknown,unknown,no,for sale by owner,,unknown,2200.0,3365.85,7.696667081526462,8.1217
+2026-04-01T09:00:23Z,4500.0,2013,volkswagen,golf,139000.0,automatic,unknown,unknown,no,for sale by owner,,unknown,4500.0,4572.18,8.412054873292933,8.428

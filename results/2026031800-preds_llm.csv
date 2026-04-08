@@ -1,0 +1,10 @@
+scraped_at,price,year,make,model,mileage,transmission,drivetrain,color,sunroof,retailer,vin,title_status,actual_price,pred_price,actual_log_price,pred_log_price
+2026-03-18T13:00:06Z,4800.0,2010,Chevrolet,Express 2500 Cargo,280000.0,automatic,unknown,grey,no,for sale by owner,1GCZGFBA3A1179965,clean,4800.0,2720.05,8.476579508530941,7.9088
+2026-03-18T14:00:29Z,5985.0,2012,Volvo,S80 T6 Premier AWD Sedan,151000.0,automatic,AWD,Snow White Pearl,yes,for sale by owner,YV1902AH1C1151669,clean,5985.0,5618.82,8.697178688412643,8.6341
+2026-03-18T14:00:29Z,25993.0,2005,CHEVROLET,EXPRESS 1500,66167.0,automatic,AWD,multiple colors,no,NEW ENGLAND MOTOR CAR COMPANY!,1GBFH15T251240457,clean,25993.0,16015.33,10.165621021141535,9.6814
+2026-03-18T14:00:29Z,34995.0,2010,Ford,E450,149000.0,automatic,unknown,White,no,for sale by dealer,,clean,34995.0,3601.29,10.462989048226156,8.1893
+2026-03-18T09:00:37Z,34900.0,2023,BMW,X1 M Sport,17987.0,automatic,AWD,black,yes,Auto Sales Center Inc.,,clean,34900.0,11438.88,10.460270761075149,9.3449
+2026-03-18T13:00:06Z,3288.0,2002,Dodge,Neon,150000.0,automatic,unknown,unknown,unknown,Cheap Auto Rental,,clean,3288.0,3305.88,8.098338846189057,8.1038
+2026-03-19T02:00:06Z,16800.0,2022,NISSAN,MURANO SV,34000.0,automatic,AWD,unknown,unknown,for sale by owner,,clean,16800.0,19132.82,9.729193687429403,9.8592
+2026-03-18T16:00:07Z,6500.0,2016,Toyota,COROLLA SPECIAL EDITION,185000.0,automatic,FWD,White,yes,for sale by owner,,clean,6500.0,6373.63,8.77971129020447,8.7601
+2026-03-18T06:00:10Z,6200.0,2018,Honda,CR-V EX Sport,48900.0,automatic,unknown,unknown,no,for sale by owner,5J6RW1H58JA001267,clean,6200.0,14395.44,8.732465848349879,9.5747

@@ -1,0 +1,28 @@
+scraped_at,price,year,make,model,mileage,transmission,drivetrain,color,sunroof,retailer,vin,title_status,actual_price,pred_price,actual_log_price,pred_log_price
+2026-03-25T11:00:32Z,6600.0,2012,Mercedes-Benz,C-Class,145523.0,automatic,AWD,Sapphire Grey Metallic,unknown,CT Auto - BAD CREDIT- NO CREDIT- NO PROBLEM!,WDDGF8BB4CA719038,clean,6600.0,7870.49,8.79497643168877,8.971
+2026-03-25T11:00:32Z,3288.0,2002,Dodge,Neon,150000.0,automatic,unknown,unknown,no,Cheap Auto Rental,,clean,3288.0,3226.58,8.098338846189057,8.0795
+2026-03-26T03:00:43Z,3500.0,1940,Ford,Sedan,40000.0,manual,RWD,green,no,for sale by dealer,,missing,3500.0,27940.47,8.160803920954665,10.2379
+2026-03-25T12:00:29Z,4400.0,2008,cadillac,escalade,250000.0,automatic,4WD,unknown,unknown,for sale by owner,,clean,4400.0,3716.52,8.38958706681109,8.2208
+2026-03-25T21:00:34Z,16500.0,1992,Jaguar,XJS,66660.0,automatic,RWD,black,no,for sale by dealer,,clean,16500.0,22914.75,9.711176264112805,10.0396
+2026-03-25T11:00:32Z,6800.0,2008,GMC,SIERRA K 8CYL,114000.0,automatic,4WD,black,no,for sale by owner,,clean,6800.0,9608.38,8.824824939175638,9.1705
+2026-03-25T15:00:37Z,3288.0,2007,ford,focus,185000.0,automatic,FWD,unknown,no,Cheap Auto Rental,,clean,3288.0,2925.23,8.098338846189057,7.9815
+2026-03-25T17:00:33Z,12500.0,2012,jeep,wrangler,150000.0,automatic,4WD,orange,no,for sale by owner,,clean,12500.0,5120.85,9.433563920090563,8.5413
+2026-03-25T11:00:32Z,66900.0,2026,Chrysler,Pacifica Mini-T Campervan,12.0,automatic,AWD,unknown,no,DLM-Distribution,2C4RC3BG1TR171554,clean,66900.0,71614.15,11.110969193687714,11.1791
+2026-03-25T22:00:23Z,5500.0,1995,chevrolet,camaro,188000.0,automatic,unknown,Plum purple,no,for sale by owner,,missing,5500.0,2588.55,8.612685172875459,7.8592
+2026-03-25T06:00:06Z,9500.0,1991,Chevrolet,Corvette,58000.0,automatic,RWD,white,no,for sale by owner,,clean,9500.0,15891.84,9.15915233520675,9.6736
+2026-03-25T17:00:33Z,4800.0,1988,chevy,Camaro IROC-Z,100000.0,manual,RWD,red,yes,for sale by owner,,clean,4800.0,11559.91,8.476579508530941,9.3554
+2026-03-25T21:00:34Z,2100.0,2008,Ford,Taurus,152000.0,manual,FWD,unknown,unknown,for sale by owner,,clean,2100.0,4313.75,7.650168700845001,8.3698
+2026-03-25T13:00:31Z,3500.0,2007,toyota,camry,200000.0,automatic,unknown,silver,yes,for sale by dealer,,clean,3500.0,4139.65,8.160803920954665,8.3286
+2026-03-25T15:00:37Z,5000.0,2021,tesla,s,61000.0,automatic,4WD,white,no,MELILLO MOTORS,,clean,5000.0,8499.78,8.517393171418904,9.0479
+2026-03-25T15:00:37Z,2000.0,2016,Chevy,Silverado 1500,90000.0,automatic,4WD,blue,no,Melillo Motors,,clean,2000.0,3055.0,7.601402334583733,8.0249
+2026-03-25T17:00:33Z,2000.0,2016,Chevy,Silverado 1500,90000.0,automatic,4WD,blue,no,MELILLO MOTORS,,clean,2000.0,3055.0,7.601402334583733,8.0249
+2026-03-25T15:00:37Z,2000.0,2018,Toyota,Camry,33000.0,automatic,FWD,white,no,MELILLO MOTORS,,clean,2000.0,2850.61,7.601402334583733,7.9556
+2026-03-25T14:00:29Z,2000.0,2020,honda,accord,20000.0,automatic,4WD,blue,yes,MELILLO MOTORS,,clean,2000.0,1887.12,7.601402334583733,7.5433
+2026-03-25T10:00:25Z,13500.0,2010,Chevy,express 2500,38000.0,automatic,unknown,unknown,unknown,for sale by owner,,clean,13500.0,3369.91,9.510519035757246,8.1229
+2026-03-25T15:00:37Z,5400.0,2013,Volkswagen,Gti,185000.0,automatic,unknown,grey,no,for sale by owner,,clean,5400.0,4838.13,8.594339400592892,8.4845
+2026-03-25T16:00:33Z,3800.0,2011,hyundai,santa fe,149000.0,automatic,unknown,unknown,no,for sale by owner,,clean,3800.0,3115.87,8.24301946898925,8.0446
+2026-03-26T03:00:43Z,6900.0,2014,Hyundai,Sonata,118290.0,automatic,FWD,white,no,for sale by dealer,5NPEB4AC8EH860979,clean,6900.0,7272.6,8.839421607620602,8.892
+2026-03-25T15:00:37Z,8900.0,2014,Volkswagen,Passat SE,85972.0,automatic,FWD,grey,yes,for sale by dealer,1VWBT7A34EC114278,clean,8900.0,7884.9,9.093918908958932,8.9728
+2026-03-25T22:00:23Z,5900.0,2016,Ford,Fiesta S,88133.0,automatic,FWD,white,no,for sale by dealer,3FADP4AJ2GM142052,clean,5900.0,11452.72,8.682877107057168,9.3461
+2026-03-25T17:00:33Z,7400.0,2010,TOYOTA,CAMRY LE,149000.0,automatic,4WD,unknown,no,for sale by owner,,clean,7400.0,6718.96,8.909370405197466,8.8128
+2026-03-25T19:00:40Z,2000.0,2018,Toyota,Camry,33000.0,automatic,FWD,white,no,MELILLO MOTORS,,clean,2000.0,2850.61,7.601402334583733,7.9556

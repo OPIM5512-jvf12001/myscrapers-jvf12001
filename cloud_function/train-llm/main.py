@@ -91,6 +91,26 @@ def generate_model_artifacts(model, X, y, cat_cols):
     plt.savefig(buf, format='png')
     artifacts['pdp_png'] = buf.getvalue()
     plt.close(fig)
+
+    # --- Pull out makes data specifically since the plot ends up being unreadable ---
+    if "make" in X.columns:
+        # Run PDP specifically for make
+        pd_make = partial_dependence(model, X, features=["make"], kind="average")
+        
+        # Extract the make names and their corresponding log prices
+        make_names = pd_make.get('grid_values', pd_make.get('values'))[0]
+        avg_log_prices = pd_make['average'][0]
+        
+        # Convert log prices to actual dollars
+        avg_dollar_prices = np.expm1(avg_log_prices)
+        
+        make_rank_df = pd.DataFrame({
+            'make': make_names,
+            'pred_price': avg_dollar_prices
+        }).sort_values(by='pred_price', ascending=False)
+        
+        # You could also add this to your artifacts dictionary to save to GCS
+        artifacts['make_rankings_csv'] = make_rank_df.to_csv(index=False)
     
     return artifacts, importance_df
 
@@ -104,7 +124,8 @@ def _write_bytes_to_gcs(client: storage.Client, bucket: str, key: str, content: 
     blob = b.blob(key)
     blob.upload_from_string(content, content_type="image/png")
 
-def run_once(dry_run: bool = False, n_trials: int = 10, iterations: int = 500):
+# Added additional logic here to allow a date override so that I can run a loop in google cloud to "catch up" on past days.
+def run_once(dry_run: bool = False, n_trials: int = 10, iterations: int = 500, date_override: str = None):
     client = storage.Client(project=PROJECT_ID)
     df = _read_csv_from_gcs(client, GCS_BUCKET, DATA_KEY)
 
@@ -146,14 +167,23 @@ def run_once(dry_run: bool = False, n_trials: int = 10, iterations: int = 500):
     counts = df["date_local"].value_counts().sort_index()
     logging.info("Recent date counts (local): %s", json.dumps({str(k): int(v) for k, v in counts.tail(8).items()}))
 
+
+
     unique_dates = sorted(d for d in df["date_local"].dropna().unique())
+
+    # Changing logic here to accomodate the date override strategy
+    if date_override:
+        today_local = pd.to_datetime(date_override).date()
+    else:
+        today_local = unique_dates[-1]
+
     if len(unique_dates) < 2:
         return {"status": "noop", "reason": "need at least two distinct dates", "dates": [str(d) for d in unique_dates]}
 
     for col in cat_cols:
         df[col] = df[col].fillna("unknown").astype(str)
 
-    today_local = unique_dates[-1]
+    
     train_df   = df[df["date_local"] <  today_local].copy()
     holdout_df = df[df["date_local"] == today_local].copy()
 
@@ -195,20 +225,32 @@ def run_once(dry_run: bool = False, n_trials: int = 10, iterations: int = 500):
     )
     final_model.fit(X_train, y_train, cat_features=cat_cols)
 
-    now_utc = pd.Timestamp.utcnow().tz_convert("UTC")
-    out_key = f"{OUTPUT_PREFIX}/{now_utc.strftime('%Y%m%d%H')}/preds_llm.csv"
+    if date_override:
+        folder_name = today_local.strftime('%Y%m%d') + "00"
 
+    else:
+        now_utc = pd.Timestamp.utcnow().tz_convert("UTC")
+        folder_name = now_utc.strftime('%Y%m%d%H')
+
+    out_key = f"{OUTPUT_PREFIX}/{folder_name}/preds_llm.csv"
+    imp_key = f"{OUTPUT_PREFIX}/{folder_name}/importance.csv"
+    pdp_key = f"{OUTPUT_PREFIX}/{folder_name}/pdp_top3.png"
+    rank_key = f"{OUTPUT_PREFIX}/{folder_name}/make_rankings.csv"
 
     if not dry_run:
         artifacts, imp_df = generate_model_artifacts(final_model, X_train, y_train, cat_cols)
         
         # Save Importance CSV
-        imp_key = f"{OUTPUT_PREFIX}/{now_utc.strftime('%Y%m%d%H')}/importance.csv"
+        
         _write_string_to_gcs(client, GCS_BUCKET, imp_key, artifacts['importance_csv'])
         
         # Save PDP Plot
-        pdp_key = f"{OUTPUT_PREFIX}/{now_utc.strftime('%Y%m%d%H')}/pdp_top3.png"
+        
         _write_bytes_to_gcs(client, GCS_BUCKET, pdp_key, artifacts['pdp_png'])
+
+        # Save make rankings
+        
+        _write_string_to_gcs(client, GCS_BUCKET, rank_key, artifacts['make_rankings_csv'])
 
     # ---- Predict/evaluate on today's holdout (now includes actual price fields) ----
     mae_today = None
@@ -259,7 +301,8 @@ def train_llm_http(request):
         result = run_once(
             dry_run=bool(body.get("dry_run", False)),
             n_trials=int(body.get("n_trials", 10)),
-            iterations=int(body.get("iterations", 500))
+            iterations=int(body.get("iterations", 500)),
+            date_override=body.get("date_override")
         )
         code = 200 if result.get("status") == "ok" else 204
         return (json.dumps(result), code, {"Content-Type": "application/json"})

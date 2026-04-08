@@ -11,7 +11,7 @@ def trigger_backlog():
     # Initialize Clients
     publisher = pubsub_v1.PublisherClient()
     topic_path = publisher.topic_path(PROJECT_ID, TOPIC_ID)
-    storage_client = storage.Client()
+    storage_client = storage.Client(project=PROJECT_ID)
     
     print(f"Scanning bucket {BUCKET_NAME} for runs...")
 

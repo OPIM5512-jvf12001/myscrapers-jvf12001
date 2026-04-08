@@ -176,7 +176,8 @@ def run_once(dry_run: bool = False, n_trials: int = 10, iterations: int = 500):
         }
         model = CatBoostRegressor(**param)
         model.fit(X_train, y_train, cat_features=cat_cols)
-        return model.get_best_score()['loss']['RMSE']
+        scores = model.get_best_score()
+        return scores.get('learn', {}).get('RMSE', 999999)
 
     study = optuna.create_study(direction="minimize")
     study.optimize(objective, n_trials=n_trials)

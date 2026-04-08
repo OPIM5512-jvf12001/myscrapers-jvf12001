@@ -1,0 +1,76 @@
+name: Data Backfill - GCS to Repo
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  id-token: write
+
+env:
+  PROJECT_ID: ${{ vars.PROJECT_ID }}
+  BUCKET_NAME: ${{ vars.BUCKET_NAME }}
+  WORKLOAD_IDENTITY_PROVIDER: ${{ vars.WORKLOAD_IDENTITY_PROVIDER }}
+  DEPLOYER_SA: ${{ vars.DEPLOYER_SA }}
+  GCS_PREDS_PREFIX: "structured/preds_llm"
+  OUTPUT_DIR: "results"
+
+jobs:
+  backfill_data:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Auth (WIF) and Setup gcloud
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ env.WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ env.DEPLOYER_SA }}
+      
+      - uses: google-github-actions/setup-gcloud@v2
+        with:
+          project_id: ${{ env.PROJECT_ID }}
+
+      - name: Sync All Historical Folders
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p ${{ env.OUTPUT_DIR }}
+          
+          # 1. Get a list of ALL folders (removing the tail -1)
+          ALL_DIRS=$(gsutil ls -d gs://${BUCKET_NAME}/${GCS_PREDS_PREFIX}/*/)
+
+          for DIR in $ALL_DIRS; do
+            # Extract the Folder Name (Run ID)
+            RUN_ID=$(echo "$DIR" | sed -E "s|gs://${BUCKET_NAME}/${GCS_PREDS_PREFIX}/||; s|/||")
+            echo "Processing Run: $RUN_ID"
+
+            # 2. Download files for THIS folder to a local temp
+            mkdir -p "tmp_$RUN_ID"
+            gsutil -m cp "$DIR"* "tmp_$RUN_ID/"
+
+            # 3. Move and Rename files
+            for file in tmp_$RUN_ID/*; do
+              filename=$(basename "$file")
+              if [ ! -f "${{ env.OUTPUT_DIR }}/$RUN_ID-$filename" ]; then
+                mv "$file" "${{ env.OUTPUT_DIR }}/$RUN_ID-$filename"
+              fi
+            done
+            rm -rf "tmp_$RUN_ID"
+          done
+
+      - name: Commit and Push All
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          
+          git add ${{ env.OUTPUT_DIR }}/*
+          if ! git diff --cached --quiet; then
+            git commit -m "🤖 Data Sync: Backfill historical artifacts"
+            git pull --rebase origin main
+            git push
+          else
+            echo "Nothing new to backfill."
+          fi
